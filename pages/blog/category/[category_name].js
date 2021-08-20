@@ -4,17 +4,27 @@ import matter from 'gray-matter'
 import Link from 'next/link'
 import Layout from '@/components/Layout'
 import Post from '@/components/Post'
-import { sortByDate } from '@/utils/index'
+import CategoryList from '@/components/CategoryList'
+import { getPosts } from '@/lib/posts'
 
-export default function CategoryBlogPage({ posts, categoryName }) {
+export default function CategoryBlogPage({ posts, categoryName, categories }) {
     return (
         <Layout>
-            <h1 className='text-5xl border-b-4 p-5'>Posts about {categoryName}</h1>
-            <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-5'>
-                {posts.map((post, i) => (
-                    <Post key={i} post={post} />
-                ))}
+            <div className='flex justify-between'>
+                <div className='w-3/4 mr-10'>
+                    <h1 className='text-5xl border-b-4 p-5'>Posts about {categoryName}</h1>
+                    <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-5'>
+                        {posts.map((post, i) => (
+                            <Post key={i} post={post} />
+                        ))}
+                    </div>
+                </div>
+                <div className='w-1/4'>
+                    <CategoryList categories={categories} />
+                </div>
             </div>
+
+
         </Layout>
     )
 }
@@ -38,14 +48,11 @@ export async function getStaticPaths() {
     }
 }
 export async function getStaticProps({ params: { category_name } }) {
-    const files = fs.readdirSync(path.join('posts'))
+    const posts = getPosts()
 
-    const posts = files.map(filename => {
-        const slug = filename.replace('.md', '')
-        const markdownWithMeta = fs.readFileSync(path.join('posts', filename), 'utf-8')
-        const { data: frontmatter } = matter(markdownWithMeta)
-        return { slug, frontmatter }
-    })
+    // Get categories for sidebar
+    const categories = posts.map(post => post.frontmatter.category)
+    const uniqueCategories = [...new Set(categories)]
 
     // Filter posts by category
     const categoryPosts = posts.filter(post => (
@@ -53,8 +60,9 @@ export async function getStaticProps({ params: { category_name } }) {
     ))
     return {
         props: {
-            posts: categoryPosts.sort(sortByDate),
-            categoryName: category_name
+            posts: categoryPosts,
+            categoryName: category_name,
+            categories: uniqueCategories
         }
     }
 }
