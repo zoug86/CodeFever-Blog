@@ -3,8 +3,8 @@ import Link from 'next/link'
 export default function CategoryLabel({ children }) {
 
     const colorKey = {
-        JavaScript: 'yellow',
-        CSS: 'blue',
+        Sorting: 'yellow',
+        Searching: 'green',
         Python: 'green',
         PHP: 'purple',
         Ruby: 'red'
