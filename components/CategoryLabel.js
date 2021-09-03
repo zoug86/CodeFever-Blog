@@ -5,9 +5,9 @@ export default function CategoryLabel({ children }) {
     const colorKey = {
         Sorting: 'yellow',
         Searching: 'green',
-        Python: 'green',
+        'Data Structure': 'blue',
         PHP: 'purple',
-        Ruby: 'red'
+        Node: 'red'
     }
 
     return (

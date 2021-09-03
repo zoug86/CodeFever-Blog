@@ -6,7 +6,9 @@ export default function Post({ post, compact }) {
     return (
         <div className='w-full px-10 py-6 bg-white rouded-lg shadow-md mt-6'>
             {!compact && (
-                <Image src={post.frontmatter.cover_image} width={600} height={420} alt={post.slug} className='mb-4 rounded' />
+                <Link href={`/blog/${post.slug}`}>
+                    <Image src={post.frontmatter.cover_image} width={600} height={420} alt={post.slug} className='mb-4 rounded cursor-pointer' />
+                </Link>
             )}
 
             <div className='flex justify-between items-center'>
