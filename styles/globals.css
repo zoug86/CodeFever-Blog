@@ -32,6 +32,10 @@ p {
     font-size: 27px;
   }
   
+  .blog-text code{
+    white-space : pre-wrap !important;
+  }
+  
   /* Fix category colors in production */
   .bg-yellow-600 {
     background-color: #d97705;
@@ -48,4 +52,5 @@ p {
   .bg-red-600 {
     background-color: #a70b34;
   }
+  
   
